@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LookPlanGraph</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { text-align: center; }
+        .container { max-width: 800px; margin: auto; }
+        .section { margin-bottom: 20px; }
+        img, video { max-width: 100%; display: block; margin: 10px auto; }
+        .center { text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LookPlanGraph: Embodied Instruction Following Method with VLM Graph Augmentation</h1>
+        
+        <div class="section center">
+            <p>Anonymous Submission</p>
+            <p><a href="paper.pdf">[Paper PDF]</a></p>
+        </div>
+
+        <div class="section">
+            <h2>Abstract</h2>
+            <p>
+                Methods that use Large Language Models (LLM) as planners for embodied instruction following tasks have become widespread. To successfully complete tasks, the LLM must be grounded in the environment in which the robot operates. One solution is to use a scene graph that contains all the necessary information. Modern methods rely on prebuilt scene graphs and assume that all task-relevant information is available at the start of planning. However, these approaches do not account for changes in the environment that may occur between the graph’s construction and the task execution. We propose LookPlanGraph -- a method that leverages a scene graph composed of static assets and object priors. During plan execution, LookPlanGraph continuously updates the graph with relevant objects, either by verifying existing priors or discovering new entities. This is achieved by processing the agent’s egocentric camera view using a Vision Language Model. We conducted experiments with changed object positions VirtualHome and OmniGibson simulated environments, demonstrating that LookPlanGraph outperforms methods based on predefined static scene graphs. To demonstrate the practical applicability of our approach, we also conducted experiments in a real-world setting. Additionally, we introduce the GraSIF (Graph Scenes for Instruction Following) dataset with automated validation framework, comprising 514 tasks drawn from SayPlan Office, BEHAVIOR-1K, and VirtualHome RobotHow.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Problem</h2>
+            <p>
+                Static planners rely solely on predefined scene graphs, making them ineffective when objects are missing or misplaced. In contrast, dynamic planners can explore the environment in real time and update the scene graph to account for newly discovered objects. This allows them to successfully execute tasks.
+            </p>
+            <img src="images/problem.png" alt="Problem Description">
+        </div>
+
+        <div class="section">
+            <h2>Method Overview</h2>
+            <p>
+                The LookPlanGraph starts with an instruction and a static environment graph. A scene memory graph, initially a copy of the starting graph, is processed by the LM with the task description and is also sent to the Scene Graph Simulator. The LM suggests an action, which the Simulator checks for feasibility. If feasible, the action changes the environment and updates the SMG. For actions requiring visual feedback (e.g., “discover_objects”), the environment sends an egocentric camera view to the VLM. The VLM processes this image, along with previously seen objects from the SMG, to generate an augmented subgraph, which updates the SMG. This cycle repeats until the LM decides that the task is complete.
+            </p>
+            <img src="images/overview.png" alt="LookPlanGraph Overview">
+        </div>
+
+        <div class="section">
+            <h2>Real-World Experiment</h2>
+            <img src="images/real.png" alt="Real-world experiment">
+        </div>
+
+        <div class="section">
+            <h2>Video</h2>
+            <video controls>
+                <source src="output_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="section">
+            <h2>GraSIF Dataset</h2>
+            <p>
+                We present the benchmark of 514 tasks, along with a lightweight, automated validation framework, designed to evaluate graph-based instruction following in household manipulation scenarios.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Citation</h2>
+            <pre><code>
+@article{LookPlanGraph,
+  title={LookPlanGraph: Embodied Instruction Following Method with VLM Graph Augmentation},
+  author={Anonymous},
+  journal={arXiv preprint},
+  year={2025}
+}
+</code></pre>
+        </div>
+
+    </div>
+</body>
+</html>
